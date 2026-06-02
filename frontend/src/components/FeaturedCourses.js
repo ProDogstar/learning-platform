@@ -18,21 +18,21 @@ export default function FeaturedCourses() {
       const response = await courseAPI.getFeaturedCourses();
       setCourses(response.data);
     } catch (err) {
-      console.error('Failed to fetch:', err);
+      console.error('Failed to fetch featured courses:', err);
     } finally {
       setLoading(false);
     }
   };
 
   const next = () => {
-    setCurrentIndex((prev) => (prev + 1) % courses.length);
+    setCurrentIndex((prev) => (prev + 1) % Math.max(1, courses.length - 2));
   };
 
   const prev = () => {
-    setCurrentIndex((prev) => (prev - 1 + courses.length) % courses.length);
+    setCurrentIndex((prev) => (prev - 1 + Math.max(1, courses.length - 2)) % Math.max(1, courses.length - 2));
   };
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (loading) return <div className="text-center py-10">Loading courses...</div>;
 
   return (
     <section className="bg-gray-50 py-12">
@@ -41,7 +41,7 @@ export default function FeaturedCourses() {
         <p className="text-gray-600 mb-8">Learn from industry experts completely free!</p>
 
         {courses.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">No featured courses</div>
+          <div className="text-center py-8 text-gray-500">No featured courses available</div>
         ) : (
           <div className="relative">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
